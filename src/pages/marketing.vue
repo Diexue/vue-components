@@ -1,6 +1,6 @@
 <template>
     <div class="marketing-page">
-        <wheel :awardLists="awards" @getWard="getWard"></wheel>
+        <wheel :awardLists="awards" @getWard="getWard" :mode="2"></wheel>
         <!--<toast></toast>-->
     </div>
 </template>

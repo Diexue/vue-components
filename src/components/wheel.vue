@@ -1,14 +1,17 @@
 <template>
     <div class="wheel-box">
         <div class='canvas-content'>
-            <img class='canvas-bg' src='../assets/lottery-turn.png'/>
-            <!--<transition name="turn" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">-->
-                <!--<div @click="lotteryTurn" class="canvas-btn" >-->
-                    <!--<img src="../assets/turn1.png"/>-->
-                <!--</div>-->
-            <!--</transition>-->
-            <div @click="lotteryTurn" class="canvas-btn" :style="{transform:rotate_angle,transition:rotate_transition}">
-                <img src="../assets/turn1.png"/>
+            <div v-if="mode==1">
+                <img class='canvas-bg' src='../assets/lottery-turn.png'/>
+                <div @click="lotteryTurn" class="canvas-btn" :style="{transform:rotate_angle,transition:rotate_transition}">
+                    <img src="../assets/turn1.png"/>
+                </div>
+            </div>
+            <div v-else-if="mode==2">
+                <img class='canvas-bg' src='../assets/lottery-turn.png' :style="{transform:rotate_angle,transition:rotate_transition}"/>
+                <div @click="lotteryTurn" class="canvas-btn" >
+                    <img src="../assets/turn1.png"/>
+                </div>
             </div>
         </div>
     </div>
@@ -17,7 +20,7 @@
 <script>
 export default {
   name: '',
-  props: ['awardLists'],
+  props: ['awardLists', 'mode'],
   data () {
     return {
       showToast: false,
@@ -30,17 +33,6 @@ export default {
     }
   },
   created () {
-    // var that = this
-    // var awardsConfig = that.data.awardLists,
-    //   len = awardsConfig.length,
-    //   // rotateDeg = 360 / len / 2 + 90,
-    //   html = [],
-    //   turnNum = 1 / len // 文字旋转 turn 值
-    // this.btnDisabled = that.awardsConfig.chance ? '' : 'disabled'
-    // for (let i = 0; i < len; i++) {
-    //   html.push({ turn: i * turnNum + 'turn', award: awardsConfig[i].name })
-    // }
-    // that.awardsList = html
   },
   computed: {},
   methods: {
@@ -53,7 +45,11 @@ export default {
       let end_angle = awardIndex * (360 / len)
       // 实际的旋转角度（实际多转了8圈）
       // this.start_rotating_degree - this.end_angle表示每次旋转都从0方位开始
-      var rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 + end_angle
+      if (this.mode === 1) {
+        var rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 + end_angle
+      } else if (this.mode === 2) {
+        rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 - end_angle
+      }
       this.end_angle = end_angle
       this.start_rotating_degree = rotate_angle
       // 旋转结束前，不允许再次触发
