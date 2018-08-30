@@ -1,9 +1,17 @@
 {
   "name": "try-publish",
-  "version": "1.0.0",
-  "description": "A Vue.js project",
+  "version": "0.0.1",
+  "description": "Vue components",
   "author": "choson",
-  "private": true,
+  "main":"dist/cs-components.min.js",
+  "private": false,
+  "keywords":[
+    "cs",
+    "vue-components",
+    "cs-components",
+    "vue",
+    "cs-com"
+  ],
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",

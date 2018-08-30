@@ -1,14 +1,18 @@
 <template>
     <div class="marketing-page">
-        <wheel :awardLists="awards" @getWard="getWard" :mode="2"></wheel>
-        <!--<toast></toast>-->
+        <div class="btn-box">
+            <div class="btn" @click="selectWay('1')">指针转</div>
+            <div class="btn" @click="selectWay('2')">转盘转</div>
+        </div>
+        <wheel :awardLists="awards" @getWard="getWard" :mode="mode"></wheel>
+        <toast v-if="showToast" @close="close"></toast>
     </div>
 </template>
 
 <script>
-// import wheel from '@/components/wheel'
+import wheel from '@/components/wheel'
 import toast from '@/components/toast'
-import {wheel} from '../../dist/cs-components.min.js'
+// import {wheel, toast} from '../../dist/cs-components.min.js'
 export default {
   name: '',
   props: {},
@@ -24,7 +28,9 @@ export default {
         { 'index': 6, 'name': '晴天' },
         { 'index': 7, 'name': '雷阵雨' }
       ],
-      myAward: null
+      myAward: null,
+      showToast: false,
+      mode: 1
     }
   },
   created () {},
@@ -36,6 +42,15 @@ export default {
       console.log('中奖', this.awards[index].name)
       this.myAward = this.awards[index].name
       this.showToast = true
+    },
+    close (e) {
+      this.showToast = false
+    },
+    selectWay (e) {
+      e = parseInt(e)
+      console.log('e->', typeof e, e)
+      if (e === 1) this.mode = 1
+      else if (e === 2) this.mode = 2
     }
   },
   watch: {},
@@ -47,5 +62,22 @@ export default {
 </script>
 
 <style scoped>
-
+.btn-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+    .btn{
+        /*width: 60px;*/
+        /*height: 30px;*/
+        /*line-height: 30px;*/
+        padding: 8px;
+        text-align: center;
+        background: #ef7555;
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px 2px #ef5350;
+    }
 </style>

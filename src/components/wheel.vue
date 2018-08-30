@@ -28,7 +28,13 @@ export default {
       default: function () {
         return 1
       }
-    }
+    },
+    // rotate_transition: {
+    //   type: String,
+    //   default: function () {
+    //     return 'transform 4s ease-in-out'
+    //   }
+    // }
   },
   data () {
     return {
@@ -42,11 +48,18 @@ export default {
     }
   },
   created () {
+    // this.rotate_transition = ''
+    // this.rotate_angle = 0
+    // this.start_rotating_degree = 0
+    // setTimeout(() => {
+    //   this.rotate_transition = 'transform 4s ease-in-out'
+    // }, 1000)
   },
   computed: {},
   methods: {
     lotteryTurn () {
       if (!this.click_flag) return
+      this.rotate_transition = 'transform 4s ease-in-out'
       let len = this.awardLists.length
       // 设置随机获奖index
       var awardIndex = Math.random() * len >>> 0
@@ -55,9 +68,11 @@ export default {
       // 实际的旋转角度（实际多转了8圈）
       // this.start_rotating_degree - this.end_angle表示每次旋转都从0方位开始
       if (this.mode === 1) {
-        var rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 + end_angle
+        // var rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 + end_angle
+        var rotate_angle = 360 * 8 + end_angle
       } else if (this.mode === 2) {
-        rotate_angle = this.start_rotating_degree + this.end_angle + 360 * 8 - end_angle
+        // rotate_angle = this.start_rotating_degree + this.end_angle + 360 * 8 - end_angle
+        rotate_angle = 360 * 8 - end_angle
       }
       console.log('角度', rotate_angle, end_angle)
       this.end_angle = end_angle
@@ -68,6 +83,8 @@ export default {
       setTimeout(() => {
         this.click_flag = true
         this.showToast = true
+        this.rotate_angle = `rotate(0deg)`
+        this.rotate_transition = `tramsform 0s`
         this.$emit('getWard', {index: awardIndex})
       }, 4500)
       console.log(this.awardLists[awardIndex].name)
@@ -93,7 +110,7 @@ export default {
     }
     .canvas-btn{
         position:absolute;
-        z-index:1;
+        /*z-index:1;*/
         left:50%;
         top:50%;
         width:75px;
