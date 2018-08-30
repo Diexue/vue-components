@@ -6,8 +6,9 @@
 </template>
 
 <script>
-import wheel from '@/components/wheel'
+// import wheel from '@/components/wheel'
 import toast from '@/components/toast'
+import {wheel} from '../../dist/cs-components.min.js'
 export default {
   name: '',
   props: {},

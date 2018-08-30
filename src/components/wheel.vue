@@ -2,15 +2,15 @@
     <div class="wheel-box">
         <div class='canvas-content'>
             <div v-if="mode==1">
-                <img class='canvas-bg' src='../assets/lottery-turn.png'/>
+                <img class='canvas-bg' src='../../static/img/lottery-turn.png'/>
                 <div @click="lotteryTurn" class="canvas-btn" :style="{transform:rotate_angle,transition:rotate_transition}">
-                    <img src="../assets/turn1.png"/>
+                    <img src="../../static/img/turn1.png"/>
                 </div>
             </div>
             <div v-else-if="mode==2">
-                <img class='canvas-bg' src='../assets/lottery-turn.png' :style="{transform:rotate_angle,transition:rotate_transition}"/>
+                <img class='canvas-bg' src='../../static/img/lottery-turn.png' :style="{transform:rotate_angle,transition:rotate_transition}"/>
                 <div @click="lotteryTurn" class="canvas-btn" >
-                    <img src="../assets/turn1.png"/>
+                    <img src="../../static/img/turn1.png"/>
                 </div>
             </div>
         </div>
@@ -20,7 +20,16 @@
 <script>
 export default {
   name: '',
-  props: ['awardLists', 'mode'],
+  // props: ['awardLists', 'mode'],
+  props: {
+    awardLists: Array,
+    mode: {
+      type: Number,
+      default: function () {
+        return 1
+      }
+    }
+  },
   data () {
     return {
       showToast: false,
@@ -48,8 +57,9 @@ export default {
       if (this.mode === 1) {
         var rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 + end_angle
       } else if (this.mode === 2) {
-        rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 - end_angle
+        rotate_angle = this.start_rotating_degree + this.end_angle + 360 * 8 - end_angle
       }
+      console.log('角度', rotate_angle, end_angle)
       this.end_angle = end_angle
       this.start_rotating_degree = rotate_angle
       // 旋转结束前，不允许再次触发

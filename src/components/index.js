@@ -1,4 +1,6 @@
-import test from './test.vue'
+import wheel from './wheel'
+import toast from './toast'
 export {
-  test
+  wheel,
+  toast
 }
