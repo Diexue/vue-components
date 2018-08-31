@@ -4,7 +4,7 @@
             <div class="btn" @click="selectWay('1')">指针转</div>
             <div class="btn" @click="selectWay('2')">转盘转</div>
         </div>
-        <wheel :awardLists="awards" @getWard="getWard" :mode="mode"></wheel>
+        <wheel ref="wheel" :awardLists="awards" @getWard="getWard" :mode="mode"></wheel>
         <toast v-if="showToast" @close="close"></toast>
     </div>
 </template>
@@ -51,6 +51,7 @@ export default {
       console.log('e->', typeof e, e)
       if (e === 1) this.mode = 1
       else if (e === 2) this.mode = 2
+      this.$refs.wheel.init()
     }
   },
   watch: {},

@@ -32,7 +32,13 @@ export default {
     // rotate_transition: {
     //   type: String,
     //   default: function () {
-    //     return 'transform 4s ease-in-out'
+    //     return 'transform 0s  ease-in-out'
+    //   }
+    // },
+    // rotate_angle: {
+    //   type: String,
+    //   default: function () {
+    //     return 'rotate(0deg)'
     //   }
     // }
   },
@@ -43,7 +49,7 @@ export default {
       start_rotating_degree: 0, // 初始旋转角度
       click_flag: true, // 是否可以旋转
       end_angle: 0, // 显示的角度（360之内）
-      rotate_transition: 'transform 4s ease-in-out',
+      rotate_transition: '',
       awardsList: []
     }
   },
@@ -54,12 +60,39 @@ export default {
     // setTimeout(() => {
     //   this.rotate_transition = 'transform 4s ease-in-out'
     // }, 1000)
+    console.log('e-->进入')
   },
   computed: {},
   methods: {
     lotteryTurn () {
       if (!this.click_flag) return
-      this.rotate_transition = 'transform 4s ease-in-out'
+      this.rotate_angle = `rotate(0deg)`
+      this.rotate_transition = `transform 0s`
+      setTimeout(() => {
+        let len = this.awardLists.length
+        // 设置随机获奖index
+        var awardIndex = Math.random() * len >>> 0
+        // 表面上的旋转角度（0-360）
+        let end_angle = awardIndex * (360 / len)
+        this.awardIndex = awardIndex
+        // 实际的旋转角度（实际多转了8圈）
+        // this.start_rotating_degree - this.end_angle表示每次旋转都从0方位开始
+        if (this.mode === 1) {
+          // var rotate_angle = this.start_rotating_degree - this.end_angle + 360 * 8 + end_angle
+          var rotate_angle = 360 * 8 + end_angle
+        } else if (this.mode === 2) {
+          // rotate_angle = this.start_rotating_degree + this.end_angle + 360 * 8 - end_angle
+          rotate_angle = 360 * 8 - end_angle
+        }
+        console.log('角度', rotate_angle, end_angle)
+        this.end_angle = end_angle
+        this.start_rotating_degree = rotate_angle
+        // 旋转结束前，不允许再次触发
+        this.click_flag = false
+        this.rotate_transition = 'transform 4s ease-in-out'
+        this.rotate_angle = `rotate(${rotate_angle}deg)`
+      }, 100)
+      /*
       let len = this.awardLists.length
       // 设置随机获奖index
       var awardIndex = Math.random() * len >>> 0
@@ -79,15 +112,22 @@ export default {
       this.start_rotating_degree = rotate_angle
       // 旋转结束前，不允许再次触发
       this.click_flag = false
+      this.rotate_transition = 'transform 4s ease-in-out'
       this.rotate_angle = `rotate(${rotate_angle}deg)`
+      */
       setTimeout(() => {
         this.click_flag = true
         this.showToast = true
-        this.rotate_angle = `rotate(0deg)`
-        this.rotate_transition = `tramsform 0s`
-        this.$emit('getWard', {index: awardIndex})
+        // this.rotate_angle = `rotate(0deg)`
+        // this.rotate_transition = `tramsform 0s`
+        console.log(this.awardLists[this.awardIndex].name)
+        this.$emit('getWard', {index: this.awardIndex})
       }, 4500)
-      console.log(this.awardLists[awardIndex].name)
+      // console.log(this.awardLists[this.awardIndex].name)
+    },
+    init () {
+      this.rotate_angle = `rotate(0deg)`
+      this.rotate_transition = `transform 0s`
     }
   },
   watch: {},

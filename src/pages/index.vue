@@ -1,13 +1,12 @@
 <template>
     <div class="index-page">
         <div>测试的</div>
-        <ts-test></ts-test>
         <router-link to="/marketing">转盘</router-link>
     </div>
 </template>
 
 <script>
-import {test} from '../../dist/cs-components.min.js'
+// import {test} from '../../dist/cs-components.min.js'
 import '../../dist/cs-components.min.css'
 // import {test} from './index.js'
 
@@ -23,7 +22,7 @@ export default {
   methods: {},
   watch: {},
   components: {
-    'ts-test': test
+    // 'ts-test': test
   }
 }
 </script>
